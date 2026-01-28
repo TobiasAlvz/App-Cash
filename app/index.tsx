@@ -1,5 +1,6 @@
 import { globalStyles } from "@/styles/global";
-import { Text, View } from "react-native";
+import React from "react";
+import { View, Text, TouchableOpacity, Pressable } from "react-native";
 
 const transactions = [
   { id: "1", description: "Supermercado", amount: -50.75 },
@@ -11,6 +12,10 @@ const transactions = [
 export default function Index() {
   const name = "Tobias";
 
+  function handleAdd() {
+    alert("Receita adicionada");
+  }
+
   return (
     <View style={globalStyles.container}>
       <Text style={globalStyles.greeting}>Olá, {name}!</Text>
@@ -18,15 +23,26 @@ export default function Index() {
       <Text style={globalStyles.balance}>R$ 1.529,85</Text>
 
       <View style={globalStyles.buttonsContainer}>
-        <View style={globalStyles.button}>
+        <TouchableOpacity style={globalStyles.button} onPress={handleAdd}>
           <Text style={globalStyles.buttonText}>Adicionar Receita</Text>
-        </View>
+        </TouchableOpacity>
+        
+<Pressable
+  onPress={handleAdd}
+  style={({ pressed }) => [
+    globalStyles.button,
+    { backgroundColor: pressed ? "#232323" : "#2C5F30" },
+  ]}
+>
+  {({ pressed }) => (
+    <Text style={globalStyles.buttonText}>
+      {pressed ? "pressionado..." : "Adicionar Despesa"}
+    </Text>
+  )}
+</Pressable>
 
-        <View style={globalStyles.button}>
-          <Text style={globalStyles.buttonText}>Adicionar Despesa</Text>
-        </View>
+
       </View>
-
       <Text style={globalStyles.sectionTitle}>Transações Recentes</Text>
 
       {transactions.map((transaction) => (

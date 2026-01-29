@@ -1,6 +1,7 @@
+import { PrimaryButton } from "@/components/PrimaryButton";
 import { globalStyles } from "@/styles/global";
 import React from "react";
-import { View, Text, TouchableOpacity, Pressable } from "react-native";
+import { View, Text } from "react-native";
 
 const transactions = [
   { id: "1", description: "Supermercado", amount: -50.75 },
@@ -23,26 +24,17 @@ export default function Index() {
       <Text style={globalStyles.balance}>R$ 1.529,85</Text>
 
       <View style={globalStyles.buttonsContainer}>
-        <TouchableOpacity style={globalStyles.button} onPress={handleAdd}>
-          <Text style={globalStyles.buttonText}>Adicionar Receita</Text>
-        </TouchableOpacity>
-        
-<Pressable
-  onPress={handleAdd}
-  style={({ pressed }) => [
-    globalStyles.button,
-    { backgroundColor: pressed ? "#232323" : "#2C5F30" },
-  ]}
->
-  {({ pressed }) => (
-    <Text style={globalStyles.buttonText}>
-      {pressed ? "pressionado..." : "Adicionar Despesa"}
-    </Text>
-  )}
-</Pressable>
+        <PrimaryButton
+          text="Adicionar Receita"
+          onPress={handleAdd}
+        ></PrimaryButton>
 
-
+        <PrimaryButton
+          text="Adicionar Despesa"
+          onPress={handleAdd}
+        ></PrimaryButton>
       </View>
+
       <Text style={globalStyles.sectionTitle}>Transações Recentes</Text>
 
       {transactions.map((transaction) => (

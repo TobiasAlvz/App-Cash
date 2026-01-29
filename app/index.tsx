@@ -20,7 +20,7 @@ export default function Index() {
     <View style={globalStyles.container}>
       <Text style={globalStyles.greeting}>Olá, {name}!</Text>
       <Text style={globalStyles.balanceLabel}>Saldo Atual</Text>
-      <Text style={globalStyles.balance}>R$ 1.529,85</Text>
+      <Text style={globalStyles.balance}>R$ 1.52</Text>
 
       <View style={globalStyles.buttonsContainer}>
         <TouchableOpacity style={globalStyles.button} onPress={handleAdd}>

@@ -1,6 +1,7 @@
+import { TransactionModal } from "@/components/modal";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { globalStyles } from "@/styles/global";
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 
 const transactions = [
@@ -12,10 +13,11 @@ const transactions = [
 
 export default function Index() {
   const name = "Tobias";
+  const [modalVisible, setModalVisible] = useState(false);
 
-  function handleAdd() {
-    alert("Receita adicionada");
-  }
+  const handleAddTransaction = () => {
+    setModalVisible(true);
+  };
 
   return (
     <View style={globalStyles.container}>
@@ -25,15 +27,19 @@ export default function Index() {
 
       <View style={globalStyles.buttonsContainer}>
         <PrimaryButton
-          text="Adicionar Receita"
-          onPress={handleAdd}
-        ></PrimaryButton>
-
-        <PrimaryButton
-          text="Adicionar Despesa"
-          onPress={handleAdd}
-        ></PrimaryButton>
+          text="Adicionar Transação"
+          onPress={handleAddTransaction}
+        />
       </View>
+
+      <TransactionModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSave={(data) => {
+          alert(`Receita adicionada:\n\n${JSON.stringify(data)}`);
+          setModalVisible(false);
+        }}
+      />
 
       <Text style={globalStyles.sectionTitle}>Transações Recentes</Text>
 

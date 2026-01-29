@@ -18,9 +18,9 @@ export default function Index() {
 
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.greeting}>Olá,asdsada {name}!</Text>
+      <Text style={globalStyles.greeting}>Olá, {name}!</Text>
       <Text style={globalStyles.balanceLabel}>Saldo Atual</Text>
-      <Text style={globalStyles.balance}>R$ 1.52</Text>
+      <Text style={globalStyles.balance}>R$ 1.529,85</Text>
 
       <View style={globalStyles.buttonsContainer}>
         <TouchableOpacity style={globalStyles.button} onPress={handleAdd}>

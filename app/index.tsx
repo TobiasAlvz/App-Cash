@@ -25,7 +25,7 @@ export default function Index() {
 
   const handleSaveIncome = (data: {
     description: string;
-    amount: string; // 👈 STRING, porque vem do TextInput
+    amount: string; 
   }) => {
     setLoading(true);
 
@@ -85,7 +85,7 @@ export default function Index() {
       />
 
       <Link href="/transactions" asChild>
-        <Text style={{ color: "blue", marginTop: 16 }}>
+        <Text style={{ color: "red", marginBottom: 100}}>
           Todas as transações
         </Text>
       </Link>

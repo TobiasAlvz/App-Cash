@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Alert } from "react-native";
 import { TransactionModal } from "@/components/TextInput";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { globalStyles } from "@/styles/global";
+import { Link } from "expo-router";
+
+type Transaction = {
+  id: string;
+  description: string;
+  amount: number;
+};
 
 export default function Index() {
   const name = "Tobias";
@@ -10,26 +17,38 @@ export default function Index() {
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const transactions = [
+  const transactions: Transaction[] = [
     { id: "1", description: "Supermercado", amount: -50.75 },
-    { id: "2", description: "Salário", amount: 2500.0 },
+    { id: "2", description: "Salário", amount: 2500 },
     { id: "3", description: "Restaurante", amount: -120.4 },
-    { id: "4", description: "Aluguel", amount: -800.0 },
-    { id: "5", description: "Ração do cachorro", amount: -199.99 },
-    { id: "6", description: "Ida ao cinema", amount: -54.78 },
-    { id: "7", description: "Freela", amount: 1600.0 },
-    { id: "8", description: "Contas de luz", amount: -252.91 },
   ];
 
-  const handleAddTransaction = () => {
-    setModalVisible(true);
-  };
-
-  const handleSaveIncome = (data: { description: string; amount: number }) => {
+  const handleSaveIncome = (data: {
+    description: string;
+    amount: string; // 👈 STRING, porque vem do TextInput
+  }) => {
     setLoading(true);
 
+    const parsedAmount = Number(data.amount.replace(",", "."));
+
+    if (isNaN(parsedAmount)) {
+      Alert.alert("Erro", "Valor inválido");
+      setLoading(false);
+      return;
+    }
+
     setTimeout(() => {
-      alert(`Receita adicionada:\n\n${JSON.stringify(data, null, 2)}`);
+      Alert.alert(
+        "Transação salva",
+        JSON.stringify(
+          {
+            description: data.description,
+            amount: parsedAmount,
+          },
+          null,
+          2,
+        ),
+      );
       setLoading(false);
       setModalVisible(false);
     }, 500);
@@ -42,12 +61,11 @@ export default function Index() {
       <Text style={globalStyles.balanceLabel}>Saldo Atual</Text>
       <Text style={globalStyles.balance}>R$ 1.529,85</Text>
 
-      <View style={globalStyles.buttonsContainer}>
-        <PrimaryButton
-          text="Adicionar Transação"
-          onPress={handleAddTransaction}
-        />
-      </View>
+      <PrimaryButton
+        text="Adicionar Transação"
+        onPress={() => setModalVisible(true)}
+        loading={loading}
+      />
 
       <TransactionModal
         visible={modalVisible}
@@ -55,35 +73,22 @@ export default function Index() {
         onSave={handleSaveIncome}
       />
 
-      <Text style={globalStyles.sectionTitle}>Transações Recentes</Text>
-
       <FlatList
         data={transactions}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={globalStyles.transactionItem}>
-            <Text style={globalStyles.transactionText}>
-              {item.description}
-            </Text>
-            <Text
-              style={[
-                globalStyles.transactionAmount,
-                item.amount >= 0
-                  ? globalStyles.income
-                  : globalStyles.expense,
-              ]}
-            >
-              R$ {item.amount.toFixed(2)}
-            </Text>
+            <Text>{item.description}</Text>
+            <Text>R$ {item.amount.toFixed(2)}</Text>
           </View>
         )}
       />
 
-      <PrimaryButton
-        text="Processando..."
-        loading={loading}
-        onPress={() => {}}
-      />
+      <Link href="/transactions" asChild>
+        <Text style={{ color: "blue", marginTop: 16 }}>
+          Todas as transações
+        </Text>
+      </Link>
     </View>
   );
 }

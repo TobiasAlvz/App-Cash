@@ -56,4 +56,5 @@ export const globalStyles = StyleSheet.create({
   expense: {
     color: "red",
   },
+
 });

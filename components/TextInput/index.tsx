@@ -6,7 +6,7 @@ import { useState } from "react";
 type ModalProps = {
   visible: boolean;
   onClose: () => void;
-  onSave: (data: { description: string; amount: string}) => void;
+  onSave: (data: { description: string; amount: string }) => void;
 };
 
 export const TransactionModal: React.FC<ModalProps> = ({
@@ -48,7 +48,7 @@ export const TransactionModal: React.FC<ModalProps> = ({
           <PrimaryButton
             text="Salvar"
             onPress={() => {
-              onSave({ description, amount});
+              onSave({ description, amount });
               setDescription("");
               setAmount("");
             }}

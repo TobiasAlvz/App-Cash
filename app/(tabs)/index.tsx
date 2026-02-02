@@ -84,11 +84,7 @@ export default function Index() {
         )}
       />
 
-      <Link href="/transactions" asChild>
-        <Text style={{ color: "red", marginBottom: 100}}>
-          Todas as transações
-        </Text>
-      </Link>
+
     </View>
   );
 }

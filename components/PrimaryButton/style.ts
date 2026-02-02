@@ -3,12 +3,17 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   button: {
     backgroundColor: "#2C5F30",
-    borderRadius: 10,
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "center",
     elevation: 2,
-    padding: 10,
+    minWidth: 120,
   },
   buttonText: {
     color: "#FFF",
-    fontWeight: "bold",
+    fontWeight: "700",
+    fontSize: 16,
   },
 });

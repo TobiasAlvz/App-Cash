@@ -7,23 +7,27 @@ export const styles = StyleSheet.create({
     padding: 20,
     justifyContent: "center",
   },
+
   title: {
     fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 16,
+    fontWeight: "700",
+    marginBottom: 20,
     textAlign: "center",
   },
+
   textInput: {
     borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 12,
+    borderColor: "#CCC",
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 14,
+    fontSize: 16,
   },
+
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 16,
     gap: 12,
+    marginTop: 20,
   },
 });

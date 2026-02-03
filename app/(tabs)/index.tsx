@@ -3,70 +3,42 @@ import { View, Text, FlatList, Alert } from "react-native";
 import { TransactionModal } from "@/components/TextInput";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { globalStyles } from "@/styles/global";
-
-type Transaction = {
-  id: string;
-  description: string;
-  amount: number;
-};
+import { useTransactions } from "@/TransactionContext";
 
 export default function Index() {
-  const name = "Tobias";
-
+  const { transactions, addTransaction, balance } = useTransactions();
   const [modalVisible, setModalVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  const transactions: Transaction[] = [
-    { id: "1", description: "Supermercado", amount: -50.75 },
-    { id: "2", description: "Salário", amount: 2500 },
-    { id: "3", description: "Restaurante", amount: -120.4 },
-  ];
-
-  const handleSaveIncome = (data: { description: string; amount: string }) => {
-    setLoading(true);
-
+  function handleSave(data: { description: string; amount: string }) {
     const parsedAmount = Number(data.amount.replace(",", "."));
 
     if (isNaN(parsedAmount)) {
-      Alert.alert("Erro", "Valor inválido");
-      setLoading(false);
+      if (isNaN(parsedAmount)) {
+        Alert.alert("Erro", "Valor inválido");
+        return;
+      }
       return;
     }
 
-    setTimeout(() => {
-      Alert.alert(
-        "Transação salva",
-        JSON.stringify(
-          {
-            description: data.description,
-            amount: parsedAmount,
-          },
-          null,
-          2,
-        ),
-      );
-      setLoading(false);
-      setModalVisible(false);
-    }, 500);
-  };
-
+    addTransaction(data.description, parsedAmount);
+    setModalVisible(false);
+  }
   return (
     <View style={globalStyles.container}>
-      <Text style={globalStyles.greeting}>Olá, {name}!</Text>
+      <Text style={globalStyles.greeting}>Olá!</Text>
 
       <Text style={globalStyles.balanceLabel}>Saldo Atual</Text>
-      <Text style={globalStyles.balance}>R$ 1.529,85</Text>
+      <Text style={globalStyles.balance}>R$ {balance.toFixed(2)}</Text>
 
       <PrimaryButton
         text="Adicionar Transação"
         onPress={() => setModalVisible(true)}
-        loading={loading}
       />
 
       <TransactionModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
-        onSave={handleSaveIncome}
+        onSave={handleSave}
       />
 
       <FlatList

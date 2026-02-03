@@ -3,7 +3,6 @@ import { View, Text, FlatList, Alert } from "react-native";
 import { TransactionModal } from "@/components/TextInput";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { globalStyles } from "@/styles/global";
-import { Link } from "expo-router";
 
 type Transaction = {
   id: string;
@@ -23,10 +22,7 @@ export default function Index() {
     { id: "3", description: "Restaurante", amount: -120.4 },
   ];
 
-  const handleSaveIncome = (data: {
-    description: string;
-    amount: string; 
-  }) => {
+  const handleSaveIncome = (data: { description: string; amount: string }) => {
     setLoading(true);
 
     const parsedAmount = Number(data.amount.replace(",", "."));
@@ -83,8 +79,6 @@ export default function Index() {
           </View>
         )}
       />
-
-
     </View>
   );
 }

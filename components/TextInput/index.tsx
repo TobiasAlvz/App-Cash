@@ -17,13 +17,20 @@ export const TransactionModal: React.FC<ModalProps> = ({
   const [description, setDescription] = useState("");
   const [amount, setAmount] = useState("");
 
+  const [savedDescription, setSavedDescription] = useState("");
+  const [savedAmount, setSavedAmount] = useState("");
+
+  const handleSave = () => {
+    onSave({ description, amount });
+
+    setSavedDescription(description);
+    setSavedAmount(amount);
+
+    setDescription("");
+    setAmount("");
+  };
   return (
-    <Modal
-      visible={visible}
-      animationType="slide"
-      transparent={false}
-      onRequestClose={onClose}
-    >
+    <Modal visible={visible} animationType="slide">
       <View style={styles.modalContent}>
         <Text style={styles.title}>Adicionar Transação</Text>
 
@@ -45,16 +52,17 @@ export const TransactionModal: React.FC<ModalProps> = ({
         />
 
         <View style={styles.buttonsContainer}>
-          <PrimaryButton
-            text="Salvar"
-            onPress={() => {
-              onSave({ description, amount });
-              setDescription("");
-              setAmount("");
-            }}
-          />
+          <PrimaryButton text="Salvar" onPress={handleSave} />
           <PrimaryButton text="Cancelar" onPress={onClose} />
         </View>
+        
+        {savedDescription !== "" && (
+          <View>
+            <Text>Resumo:</Text>
+            <Text>Descrição: {savedDescription}</Text>
+            <Text>Valor: R$ {savedAmount}</Text>
+          </View>
+        )}
       </View>
     </Modal>
   );

@@ -5,6 +5,8 @@ import { PrimaryButton } from "@/components/PrimaryButton";
 import { globalStyles } from "@/styles/global";
 import { useTransactions } from "@/TransactionContext";
 
+// https://complex-humor-1df.notion.site/Atividade-2fdcc8c2db9680c699f4efeaa7c8f38d
+
 export default function Index() {
   const { transactions, addTransaction, balance } = useTransactions();
   const [modalVisible, setModalVisible] = useState(false);
@@ -36,7 +38,7 @@ export default function Index() {
       />
 
       <Text>Total de transações:{transactions.length}</Text>
-      
+
       {transactions.length === 0 && <Text>Nenhuma Transação Adicionada</Text>}
 
       <TransactionModal

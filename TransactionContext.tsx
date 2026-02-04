@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type Transaction = {
   id: string;
@@ -21,16 +22,42 @@ export function TransactionProvider({
 }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
-  function addTransaction(description: string, amount: number) {
-    setTransactions((prev) => [
-      ...prev,
-      {
-        id: String(Date.now()),
-        description,
-        amount,
-      },
-    ]);
+  async function saveTransactions(data: Transaction[]) {
+    try {
+      await AsyncStorage.setItem("@transactions", JSON.stringify(data));
+    } catch (error) {
+      console.log("Erro ao salvar", error);
+    }
   }
+
+  async function loadTransiction() {
+    try {
+      const data = await AsyncStorage.getItem("@transactions");
+      if (data) {
+        setTransactions(JSON.parse(data));
+      }
+    } catch (error) {
+      console.log("Erro ao carregar", error);
+    }
+  }
+  // adiciona uma transação
+  function addTransaction(description: string, amount: number) {
+    const newTransiction = {
+      id: String(Date.now()),
+      description,
+      amount,
+    };
+
+    setTransactions((prev) => {
+      const update = [...prev, newTransiction];
+      saveTransactions(update);
+      return update;
+    });
+  }
+  // roda a função apenas uma vez, quando o app abre
+  useEffect(() => {
+    loadTransiction();
+  }, []);
 
   const balance = transactions.reduce((total, item) => total + item.amount, 0);
 

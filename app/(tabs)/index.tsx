@@ -35,6 +35,10 @@ export default function Index() {
         onPress={() => setModalVisible(true)}
       />
 
+      <Text>Total de transações:{transactions.length}</Text>
+      
+      {transactions.length === 0 && <Text>Nenhuma Transação Adicionada</Text>}
+
       <TransactionModal
         visible={modalVisible}
         onClose={() => setModalVisible(false)}

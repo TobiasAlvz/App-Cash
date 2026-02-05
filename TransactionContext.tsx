@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 
 type Transaction = {
   id: string;
@@ -11,6 +12,7 @@ type TransactionContextData = {
   transactions: Transaction[];
   addTransaction: (description: string, amount: number) => void;
   balance: number;
+  clearTransactios: () => void;
 };
 
 const TransactionContext = createContext<TransactionContextData | null>(null);
@@ -42,6 +44,11 @@ export function TransactionProvider({
   }
   // adiciona uma transação
   function addTransaction(description: string, amount: number) {
+    if (!description || !amount) {
+      Alert.alert("ERRO", "Preencha todos os campos");
+      return;
+    }
+
     const newTransiction = {
       id: String(Date.now()),
       description,
@@ -54,6 +61,15 @@ export function TransactionProvider({
       return update;
     });
   }
+
+  const clearTransactios = async () => {
+    try {
+      await AsyncStorage.removeItem("@transactions");
+      setTransactions([]);
+    } catch (error) {
+      console.log("Erro ao apagar lista", error);
+    }
+  };
   // roda a função apenas uma vez, quando o app abre
   useEffect(() => {
     loadTransiction();
@@ -63,7 +79,7 @@ export function TransactionProvider({
 
   return (
     <TransactionContext.Provider
-      value={{ transactions, addTransaction, balance }}
+      value={{ transactions, addTransaction, balance, clearTransactios }}
     >
       {children}
     </TransactionContext.Provider>

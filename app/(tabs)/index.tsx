@@ -12,12 +12,16 @@ export default function Index() {
     useTransactions();
   const [modalVisible, setModalVisible] = useState(false);
 
+   const nome = "Tobias"
+
   const totalExpenses = transactions
     .filter((t) => t.amount < 0)
     .reduce((acc, t) => acc + t.amount, 0);
 
   function handleSave(data: { description: string; amount: string }) {
     const parsedAmount = Number(data.amount.replace(",", "."));
+
+   
 
     if (isNaN(parsedAmount)) {
       if (isNaN(parsedAmount)) {
@@ -31,8 +35,9 @@ export default function Index() {
     setModalVisible(false);
   }
   return (
+
     <View style={globalStyles.container}>
-      <Text style={globalStyles.greeting}>Olá!</Text>
+      <Text style={globalStyles.greeting}>Olá! {nome}</Text>
 
       <Text style={globalStyles.balanceLabel}>Saldo Atual</Text>
       <Text style={globalStyles.balance}>R$ {balance.toFixed(2)}</Text>

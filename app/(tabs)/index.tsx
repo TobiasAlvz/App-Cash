@@ -8,8 +8,13 @@ import { useTransactions } from "@/TransactionContext";
 // https://complex-humor-1df.notion.site/Atividade-2fdcc8c2db9680c699f4efeaa7c8f38d
 
 export default function Index() {
-  const { transactions, addTransaction, balance } = useTransactions();
+  const { transactions, addTransaction, balance, clearTransactios } =
+    useTransactions();
   const [modalVisible, setModalVisible] = useState(false);
+
+  const totalExpenses = transactions
+    .filter((t) => t.amount < 0)
+    .reduce((acc, t) => acc + t.amount, 0);
 
   function handleSave(data: { description: string; amount: string }) {
     const parsedAmount = Number(data.amount.replace(",", "."));
@@ -47,6 +52,8 @@ export default function Index() {
         onSave={handleSave}
       />
 
+      <PrimaryButton text="Apagar Lista" onPress={clearTransactios} />
+
       <FlatList
         data={transactions}
         keyExtractor={(item) => item.id}
@@ -57,6 +64,8 @@ export default function Index() {
           </View>
         )}
       />
+
+      <Text>Total de despesas {totalExpenses}</Text>
     </View>
   );
 }
